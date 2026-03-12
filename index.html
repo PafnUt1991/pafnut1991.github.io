@@ -13,24 +13,8 @@
     <meta property="og:image" content="image_048c9a.png">
     <meta property="og:type" content="website">
 
-    <!-- Подключаем Tailwind CSS с поддержкой темной темы через медиа-запросы -->
+    <!-- Подключаем стили и иконки -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'media', // Автоматически по настройкам системы
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#0B0F14',
-                        darkCard: '#161B22',
-                        darkBorder: '#30363D'
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Подключаем иконки Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -38,7 +22,8 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            background-color: #FAFAFA;
+            color: #0f172a;
         }
         
         ::selection {
@@ -51,17 +36,11 @@
             0%, 100% { transform: translateY(0) }
             50% { transform: translateY(-15px) }
         }
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        .animate-float-delayed {
-            animation: float 8s ease-in-out 2s infinite;
-        }
-        .animate-float-slow {
-            animation: float 10s ease-in-out 1s infinite;
-        }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 8s ease-in-out 2s infinite; }
+        .animate-float-slow { animation: float 10s ease-in-out 1s infinite; }
         
-        /* Скрытие скроллбара */
+        /* Скрытие скроллбара карусели */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -74,9 +53,18 @@
             opacity: 0;
             pointer-events: none;
         }
+
+        /* Эффект наведения на коллаж */
+        .collage-item {
+            transition: all 0.5s ease;
+        }
+        .collage-container:hover .collage-item-bg {
+            opacity: 0.8;
+            transform: scale(1.01);
+        }
     </style>
 </head>
-<body class="bg-[#FAFAFA] dark:bg-darkBg text-slate-900 dark:text-slate-100 min-h-screen overflow-x-hidden">
+<body class="min-h-screen overflow-x-hidden">
 
     <!-- Навигация -->
     <nav class="flex items-center justify-between py-6 px-6 md:px-12 max-w-[1600px] mx-auto">
@@ -84,11 +72,11 @@
             <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-600/20">
                 П
             </div>
-            <span class="font-bold text-xl tracking-tight hidden sm:block text-slate-900 dark:text-white">Павел Андреев</span>
+            <span class="font-bold text-xl tracking-tight hidden sm:block text-slate-900 font-sans">Павел Андреев</span>
         </div>
         <div class="flex items-center gap-4">
             <a href="https://t.me/pafnut1991" target="_blank" rel="noreferrer"
-               class="flex items-center gap-2 bg-white dark:bg-darkCard text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-darkBorder px-5 py-2.5 rounded-full font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm">
+               class="flex items-center gap-2 bg-white text-slate-800 border border-slate-200 px-5 py-2.5 rounded-full font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm text-sm">
                 <i data-lucide="message-circle" class="w-[18px] h-[18px] text-blue-500"></i>
                 <span class="hidden sm:inline">Написать в Telegram</span>
                 <span class="sm:hidden">Telegram</span>
@@ -103,21 +91,19 @@
             
             <!-- Контентная часть -->
             <div class="lg:col-span-6 flex flex-col items-start z-10">
-                <!-- Тег -->
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-semibold mb-6 md:mb-8 border border-blue-100/50 dark:border-blue-800/50">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-xs md:text-sm font-semibold mb-6 md:mb-8 border border-blue-100/50">
                     <i data-lucide="database" class="w-4 h-4"></i> Архитектура данных для бизнеса
                 </div>
                 
-                <!-- Заголовок -->
                 <h1 class="text-4xl md:text-5xl lg:text-[4.2rem] font-extrabold tracking-tight leading-[1.1] mb-6">
                     А вы знали, что <br class="hidden md:block"/>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Таблицы</span> <br/>
                     могут выглядеть вот так?
                 </h1>
 
-                <!-- МОКАПЫ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ -->
-                <div class="lg:hidden w-full relative h-[320px] mb-8 flex items-center justify-center">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-100/30 dark:bg-blue-600/10 rounded-full blur-[60px] -z-10"></div>
+                <!-- МОКАПЫ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (сразу после заголовка) -->
+                <div class="lg:hidden w-full relative h-[300px] mb-8 flex items-center justify-center">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] bg-blue-100/30 rounded-full blur-[60px] -z-10"></div>
                     <div class="relative w-full h-full">
                         <img src="desktop.png" class="absolute z-10 w-[85%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 drop-shadow-2xl" alt="Desktop">
                         <img src="tablet.png" class="absolute z-20 w-[45%] bottom-4 left-0 animate-float-delayed drop-shadow-xl" alt="Tablet">
@@ -125,19 +111,17 @@
                     </div>
                 </div>
 
-                <!-- Описание -->
-                <p class="text-lg md:text-2xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed font-light mb-10">
-                    Превращаю стандартные таблицы в полноценные <strong class="text-slate-800 dark:text-white font-semibold">CRM и ERP-системы</strong> с современным web-интерфейсом, работающим на любом устройстве.
+                <p class="text-lg md:text-2xl text-slate-500 max-w-xl leading-relaxed font-light mb-10">
+                    Превращаю стандартные таблицы в полноценные <strong class="text-slate-800 font-semibold">CRM и ERP-системы</strong> с современным web-интерфейсом, работающим на любом устройстве.
                 </p>
 
-                <!-- Кнопки связи -->
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                     <a href="https://t.me/pafnut1991" target="_blank" rel="noreferrer"
                        class="flex justify-center items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/20 hover:shadow-blue-600/40">
                         Обсудить проект <i data-lucide="send" class="w-5 h-5"></i>
                     </a>
                     <a href="https://wa.me/79773407808" target="_blank"
-                       class="flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-8 py-4 rounded-full font-medium text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-darkBorder">
+                       class="flex justify-center items-center gap-2 bg-white text-slate-700 px-8 py-4 rounded-full font-medium text-lg hover:bg-slate-50 transition-colors border border-slate-200">
                         <i data-lucide="phone" class="w-5 h-5 text-emerald-500"></i> WhatsApp
                     </a>
                 </div>
@@ -145,7 +129,7 @@
             
             <!-- МОКАПЫ ДЛЯ ДЕСКТОПНОЙ ВЕРСИИ -->
             <div class="hidden lg:flex lg:col-span-6 relative justify-center items-center h-[550px]">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-tr from-blue-100/30 to-emerald-100/30 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-full blur-[100px] -z-10"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-tr from-blue-100/30 to-emerald-100/30 rounded-full blur-[100px] -z-10"></div>
                 <div class="relative w-full h-full flex items-center justify-center">
                     <div class="absolute z-10 w-[85%] transition-transform duration-700 hover:scale-[1.02]">
                         <img src="desktop.png" alt="Desktop CRM" class="w-full h-auto drop-shadow-2xl">
@@ -163,32 +147,32 @@
         <!-- Блок преимуществ -->
         <section class="mt-24 md:mt-40">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-                <div class="bg-white dark:bg-darkCard p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-darkBorder hover:shadow-xl hover:border-blue-100 dark:hover:border-blue-900 transition-all duration-300 group text-center md:text-left">
-                    <div class="w-16 h-16 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
+                <div class="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl hover:border-blue-100 transition-all duration-300 group text-center md:text-left">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="layers" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Структурируют процессы</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Структурируют процессы</h3>
+                    <p class="text-slate-500 leading-relaxed text-lg font-light">
                         Превращаю разрозненные файлы в единую систему, где каждый процесс оцифрован и прозрачен.
                     </p>
                 </div>
                 
-                <div class="bg-white dark:bg-darkCard p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-darkBorder hover:shadow-xl hover:border-amber-100 dark:hover:border-amber-900 transition-all duration-300 group text-center md:text-left">
-                    <div class="w-16 h-16 bg-amber-50 dark:bg-amber-900/20 text-amber-500 dark:text-amber-400 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
+                <div class="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl hover:border-amber-100 transition-all duration-300 group text-center md:text-left">
+                    <div class="w-16 h-16 bg-amber-50 text-amber-500 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="zap" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Ускоряют работу</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Ускоряют работу</h3>
+                    <p class="text-slate-500 leading-relaxed text-lg font-light">
                         Удобный web-интерфейс экономит часы: поиск и управление данными происходят в пару кликов.
                     </p>
                 </div>
 
-                <div class="bg-white dark:bg-darkCard p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-darkBorder hover:shadow-xl hover:border-emerald-100 dark:hover:border-emerald-900 transition-all duration-300 group text-center md:text-left">
-                    <div class="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-500 dark:text-emerald-400 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
+                <div class="bg-white p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-xl hover:border-emerald-100 transition-all duration-300 group text-center md:text-left">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-500 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="shield-check" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Снижают ошибки</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-4">Снижают ошибки</h3>
+                    <p class="text-slate-500 leading-relaxed text-lg font-light">
                         Автоматические расчеты и жесткая логика сводят человеческий фактор к минимуму.
                     </p>
                 </div>
@@ -199,122 +183,153 @@
         <section class="mt-32 md:mt-48 mb-24 relative">
             <div class="text-center mb-16 max-w-3xl mx-auto px-4">
                 <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Больше, чем просто таблицы</h2>
-                <p class="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                <p class="text-xl text-slate-500 font-light leading-relaxed">
                     Сложные данные остаются под капотом, а вы работаете в чистом и быстром интерфейсе.
                 </p>
             </div>
 
-            <!-- Десктопный коллаж -->
-            <div class="hidden md:block relative w-full h-[600px] lg:h-[850px] bg-slate-100 dark:bg-slate-900/50 rounded-[3rem] overflow-hidden border border-slate-200/60 dark:border-darkBorder shadow-inner group p-8">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] lg:w-[88%] z-10 transition-all duration-700 opacity-40 hover:opacity-100 shadow-2xl rounded-2xl border border-slate-300/50 dark:border-darkBorder bg-white dark:bg-darkCard overflow-hidden">
+            <!-- Десктопный коллаж (БОГАТАЯ ВЕРСИЯ СО ВСЕМИ СКРИНШОТАМИ) -->
+            <div class="hidden md:block relative w-full h-[700px] lg:h-[900px] bg-slate-100 rounded-[3rem] overflow-hidden border border-slate-200/60 shadow-inner group collage-container p-8">
+                
+                <!-- Задний план - Основной интерфейс -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] lg:w-[85%] z-10 transition-all duration-700 opacity-30 collage-item-bg shadow-2xl rounded-2xl border border-slate-300/50 bg-white overflow-hidden">
                     <img src="image_049361.png" class="w-full h-auto block" alt="CRM Main">
                 </div>
-                <div class="absolute top-12 left-12 w-[45%] lg:w-[42%] z-20 animate-float">
-                    <div class="bg-white/80 dark:bg-darkCard/80 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-darkBorder">
-                        <img src="image_04931f.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-800 block">
+
+                <!-- Плавающие окна (все ваши работы) -->
+                <!-- 1. План оплат -->
+                <div class="absolute top-10 left-10 w-[45%] lg:w-[40%] z-20 animate-float">
+                    <div class="bg-white/80 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60">
+                        <img src="image_04931f.png" class="w-full h-auto rounded-3xl border border-slate-100 block" alt="Оплаты">
                     </div>
                 </div>
-                <div class="absolute bottom-16 right-16 w-[45%] lg:w-[38%] z-40 animate-float-delayed">
-                    <div class="bg-white/90 dark:bg-darkCard/90 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-darkBorder">
-                        <img src="image_049305.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-800 block">
+
+                <!-- 2. Аналитика (справа сверху) -->
+                <div class="absolute top-20 right-10 w-[40%] lg:w-[35%] z-30 animate-float-slow" style="animation-delay: 1s;">
+                    <div class="bg-white/90 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60">
+                        <img src="image_04933d.png" class="w-full h-auto rounded-3xl border border-slate-100 block" alt="Аналитика">
+                    </div>
+                </div>
+
+                <!-- 3. Взаиморасчеты (справа снизу) -->
+                <div class="absolute bottom-12 right-12 w-[48%] lg:w-[42%] z-40 animate-float-delayed">
+                    <div class="bg-white/80 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60">
+                        <img src="image_049305.png" class="w-full h-auto rounded-3xl border border-slate-100 block" alt="Взаиморасчеты">
+                    </div>
+                </div>
+
+                <!-- 4. Калькулятор (слева снизу) -->
+                <div class="absolute bottom-20 left-16 w-[42%] lg:w-[36%] z-30 animate-float-slow" style="animation-delay: 0.5s;">
+                    <div class="bg-white/90 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60">
+                        <img src="image_049323.png" class="w-full h-auto rounded-3xl border border-slate-100 block" alt="Юнит-экономика">
+                    </div>
+                </div>
+
+                <!-- 5. "Как это было" (маленькая серая табличка в углу для контраста) -->
+                <div class="absolute top-1/2 right-4 -translate-y-1/2 w-[25%] z-20 opacity-40 group-hover:opacity-100 transition-all">
+                    <div class="bg-slate-200 p-2 rounded-2xl shadow-lg grayscale">
+                        <img src="image_049341.png" class="w-full h-auto rounded-xl block">
                     </div>
                 </div>
             </div>
 
-            <!-- Мобильная карусель -->
+            <!-- МОБИЛЬНАЯ ВЕРСИЯ: ПОЛНАЯ КАРУСЕЛЬ (БОГАТАЯ ВЕРСИЯ) -->
             <div class="md:hidden mt-8">
                 <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-6 px-6 pb-12">
+                    
+                    <!-- Слайд 1 -->
                     <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-darkCard p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-darkBorder">
+                        <div class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-100">
                             <img src="image_049361.png" class="rounded-2xl w-full h-auto" />
                         </div>
                         <div class="mt-4 px-2">
-                            <h4 class="font-bold dark:text-white">Панель управления</h4>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Единый дашборд со всеми проектами.</p>
+                            <h4 class="font-bold text-slate-900">Дашборд управления</h4>
+                            <p class="text-sm text-slate-500 mt-1">Единое окно контроля всех бизнес-процессов.</p>
                         </div>
                     </div>
+
+                    <!-- Слайд 2 -->
                     <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-darkCard p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-darkBorder">
+                        <div class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-100">
                             <img src="image_04931f.png" class="rounded-2xl w-full h-auto" />
                         </div>
                         <div class="mt-4 px-2">
-                            <h4 class="font-bold dark:text-white">Контроль оплат</h4>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Автоматический учет дебиторки.</p>
+                            <h4 class="font-bold text-slate-900">Контроль оплат</h4>
+                            <p class="text-sm text-slate-500 mt-1">Автоматическая сверка платежей и дебиторки.</p>
                         </div>
                     </div>
+
+                    <!-- Слайд 3 -->
+                    <div class="min-w-[85vw] snap-center">
+                        <div class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-100">
+                            <img src="image_049305.png" class="rounded-2xl w-full h-auto" />
+                        </div>
+                        <div class="mt-4 px-2">
+                            <h4 class="font-bold text-slate-900">Взаиморасчеты</h4>
+                            <p class="text-sm text-slate-500 mt-1">Детальная история работы с контрагентами.</p>
+                        </div>
+                    </div>
+
+                    <!-- Слайд 4 -->
+                    <div class="min-w-[85vw] snap-center">
+                        <div class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-100">
+                            <img src="image_049323.png" class="rounded-2xl w-full h-auto" />
+                        </div>
+                        <div class="mt-4 px-2">
+                            <h4 class="font-bold text-slate-900">Юнит-экономика</h4>
+                            <p class="text-sm text-slate-500 mt-1">Расчет маржинальности и чистой прибыли.</p>
+                        </div>
+                    </div>
+
+                    <!-- Слайд 5 -->
+                    <div class="min-w-[85vw] snap-center">
+                        <div class="bg-white p-3 rounded-[2rem] shadow-xl border border-slate-100">
+                            <img src="image_04933d.png" class="rounded-2xl w-full h-auto" />
+                        </div>
+                        <div class="mt-4 px-2">
+                            <h4 class="font-bold text-slate-900">Финансовая аналитика</h4>
+                            <p class="text-sm text-slate-500 mt-1">Графики и отчеты на основе живых данных.</p>
+                        </div>
+                    </div>
+
+                    <!-- Слайд 6 (Контраст) -->
+                    <div class="min-w-[85vw] snap-center">
+                        <div class="bg-slate-200/50 p-3 rounded-[2rem] border border-slate-200 grayscale opacity-60">
+                            <img src="image_049341.png" class="rounded-2xl w-full h-auto" />
+                        </div>
+                        <div class="mt-4 px-2">
+                            <h4 class="font-bold text-slate-400 italic text-sm">Обычные таблицы Google</h4>
+                            <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Так это выглядит «внутри»</p>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="flex justify-center items-center gap-2 mt-2 text-slate-300 dark:text-slate-600 animate-pulse">
+                <div class="flex justify-center items-center gap-2 mt-2 text-slate-300 animate-pulse">
                     <i data-lucide="chevron-left" class="w-4 h-4"></i>
                     <span class="text-xs font-medium uppercase tracking-[0.2em]">Листайте портфолио</span>
                     <i data-lucide="chevron-right" class="w-4 h-4"></i>
                 </div>
             </div>
+
+            <div class="mt-12 text-center text-sm text-slate-400 font-light px-6">
+                * Данные на скриншотах демонстрационные и изменены в целях конфиденциальности.
+            </div>
         </section>
     </main>
 
     <!-- Футер -->
-    <footer class="mt-24 border-t border-slate-200 dark:border-darkBorder bg-white dark:bg-darkBg py-20">
+    <footer class="mt-24 border-t border-slate-200 bg-white py-20">
         <div class="max-w-[1600px] mx-auto px-6 md:px-12 flex flex-col items-center text-center">
-            <!-- Увеличенное фото -->
-            <div class="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-[6px] border-white dark:border-darkCard mb-8 shadow-2xl bg-slate-200 dark:bg-darkCard flex items-center justify-center">
+            
+            <div class="w-44 h-44 md:w-60 md:h-60 rounded-full overflow-hidden border-[8px] border-white mb-8 shadow-2xl bg-slate-200 flex items-center justify-center transition-transform hover:scale-105 duration-500">
                  <img src="image_048c3e.png" alt="Павел Андреев" class="w-full h-full object-cover">
             </div>
-            <h2 class="text-3xl md:text-4xl font-bold mb-1 dark:text-white">Павел Андреев</h2>
-            <div class="text-blue-600 dark:text-blue-400 font-semibold mb-6 tracking-widest uppercase text-xs">Архитектор данных</div>
-            <p class="text-slate-500 dark:text-slate-400 mb-10 max-w-md text-lg font-light leading-relaxed">
+            
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-2 tracking-tight">Павел Андреев</h2>
+            <div class="text-blue-600 font-bold mb-6 tracking-[0.2em] uppercase text-xs md:text-sm">Архитектор данных</div>
+            
+            <p class="text-slate-500 mb-10 max-w-md text-lg font-light leading-relaxed">
                 Проектирование и разработка систем автоматизации бизнеса на базе Google Таблиц.
             </p>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl px-6">
-                <a href="https://t.me/pafnut1991" target="_blank" class="flex items-center justify-center gap-3 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all px-8 py-5 rounded-2xl shadow-lg shadow-blue-600/20">
-                    <i data-lucide="message-circle" class="w-6 h-6"></i> Telegram
-                </a>
-                <a href="https://wa.me/79773407808" target="_blank" class="flex items-center justify-center gap-3 text-lg font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all px-8 py-5 rounded-2xl border border-emerald-100 dark:border-emerald-800">
-                    <i data-lucide="phone" class="w-6 h-6"></i> WhatsApp
-                </a>
-                <a href="mailto:pafnut.hero@gmail.com" class="sm:col-span-2 flex items-center justify-center gap-3 text-lg font-semibold text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-darkCard hover:bg-slate-100 dark:hover:bg-slate-800 transition-all px-8 py-5 rounded-2xl border border-slate-200 dark:border-darkBorder">
-                    <i data-lucide="mail" class="w-6 h-6 text-blue-500 dark:text-blue-400"></i> pafnut.hero@gmail.com
-                </a>
-            </div>
-
-            <div class="mt-20 text-slate-300 dark:text-slate-700 text-[10px] font-light tracking-[0.3em] uppercase">
-                © <span id="year"></span> Павел Андреев
-            </div>
-        </div>
-    </footer>
-
-    <!-- Баннер Cookies -->
-    <div id="cookie-banner" class="fixed bottom-6 left-6 right-6 md:left-auto md:right-10 md:w-80 bg-white/95 dark:bg-darkCard/95 backdrop-blur-md p-5 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-slate-200 dark:border-darkBorder z-[100] flex flex-col gap-4">
-        <div class="flex items-start gap-3">
-            <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center shrink-0">
-                <i data-lucide="info" class="w-5 h-5"></i>
-            </div>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-snug">
-                Мы собираем cookies, чтобы сайт работал быстрее и удобнее.
-            </p>
-        </div>
-        <button id="close-cookie" class="w-full bg-slate-900 dark:bg-blue-600 text-white text-sm font-bold py-3.5 rounded-2xl hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors">
-            Ок
-        </button>
-    </div>
-
-    <script>
-        lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // Логика куки
-        const banner = document.getElementById('cookie-banner');
-        const btn = document.getElementById('close-cookie');
-
-        btn.onclick = () => {
-            banner.classList.add('hidden-banner');
-            localStorage.setItem('cookiesAccepted', 'true');
-        };
-
-        if (localStorage.getItem('cookiesAccepted') === 'true') {
-            banner.classList.add('hidden-banner');
-        }
-    </script>
-</body>
-</html>
-
+            <div class="grid
