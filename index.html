@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Мета-теги для превью -->
     <title>Павел Андреев — Архитектор данных | CRM/ERP на Google Таблицах</title>
     <meta name="description" content="Проектирую профессиональные CRM и ERP системы на базе Google Таблиц с удобным Web-интерфейсом. Архитектура данных и автоматизация бизнеса.">
-    
+
     <meta property="og:title" content="Павел Андреев — Архитектор данных">
     <meta property="og:description" content="А вы знали, что Google Таблицы могут выглядеть как полноценная CRM? Проектирую системы с Web-интерфейсом.">
     <meta property="og:image" content="image_048c9a.png">
@@ -29,7 +29,7 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #FAFAFA;
@@ -59,6 +59,22 @@
         #theme-icon-sun { display: none; }
         #theme-icon-moon { display: block; }
 
+        /* Переключатель языков */
+        #lang-switcher { position: relative; }
+        #lang-switcher .lang-btn {
+            transition: color 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        #lang-switcher .lang-btn.active {
+            color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .dark #lang-switcher .lang-btn.active {
+            color: #60a5fa;
+            background-color: rgba(30, 58, 138, 0.3);
+        }
+
         /* Анимации парения */
         @keyframes float {
             0%, 100% { transform: translateY(0) }
@@ -73,7 +89,7 @@
         .animate-float-slow {
             animation: float 10s ease-in-out 1s infinite;
         }
-        
+
         /* Скрытие скроллбара */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -94,12 +110,18 @@
     <!-- Навигация -->
     <nav class="flex items-center justify-between py-6 px-6 md:px-12 max-w-[1600px] mx-auto">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-600/20">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-600/20" data-i18n="navLogo">
                 П
             </div>
-            <span class="font-bold text-xl tracking-tight hidden sm:block text-slate-900 dark:text-white">Павел Андреев</span>
+            <span class="font-bold text-xl tracking-tight hidden sm:block text-slate-900 dark:text-white" data-i18n="navName">Павел Андреев</span>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Переключатель языков -->
+            <div id="lang-switcher" class="flex items-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full shadow-sm overflow-hidden">
+                <button class="lang-btn px-2.5 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" data-lang="ru">RU</button>
+                <button class="lang-btn px-2.5 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" data-lang="en">EN</button>
+                <button class="lang-btn px-2.5 py-2 text-xs font-bold text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" data-lang="it">IT</button>
+            </div>
             <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm" aria-label="Переключить тему">
                 <i id="theme-icon-moon" data-lucide="moon" class="w-[18px] h-[18px]"></i>
                 <i id="theme-icon-sun" data-lucide="sun" class="w-[18px] h-[18px]"></i>
@@ -107,32 +129,32 @@
             <a href="https://t.me/pafnut1991" target="_blank" rel="noreferrer"
                class="flex items-center gap-2 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 px-5 py-2.5 rounded-full font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all shadow-sm">
                 <i data-lucide="message-circle" class="w-[18px] h-[18px] text-blue-500"></i>
-                <span class="hidden sm:inline">Написать в Telegram</span>
+                <span class="hidden sm:inline" data-i18n="navTelegram">Написать в Telegram</span>
                 <span class="sm:hidden">Telegram</span>
             </a>
         </div>
     </nav>
 
     <main class="px-6 md:px-12 max-w-[1600px] mx-auto">
-        
+
         <!-- Главный экран (Hero) -->
         <section class="mt-8 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             <!-- Контентная часть -->
             <div class="lg:col-span-6 flex flex-col items-start z-10">
                 <!-- Тег (верхний) -->
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 text-sm font-semibold mb-6 md:mb-8 border border-blue-100/50 dark:border-blue-800/50">
-                    <i data-lucide="database" class="w-4 h-4"></i> Архитектура данных для бизнеса
+                    <i data-lucide="database" class="w-4 h-4"></i> <span data-i18n="heroTag">Архитектура данных для бизнеса</span>
                 </div>
-                
+
                 <!-- Заголовок -->
-                <h1 class="text-4xl md:text-5xl lg:text-[4.2rem] font-extrabold tracking-tight leading-[1.1] mb-6 dark:text-white">
+                <h1 class="text-4xl md:text-5xl lg:text-[4.2rem] font-extrabold tracking-tight leading-[1.1] mb-6 dark:text-white" data-i18n-html="heroTitle">
                     А вы знали, что <br class="hidden md:block"/>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Таблицы</span> <br/>
                     могут выглядеть вот так?
                 </h1>
 
-                <!-- МОКАПЫ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ (показываются только на мобилках сразу под заголовком) -->
+                <!-- МОКАПЫ ДЛЯ МОБИЛЬНОЙ ВЕРСИИ -->
                 <div class="lg:hidden w-full relative h-[320px] mb-8 flex items-center justify-center">
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-100/30 dark:bg-blue-900/20 rounded-full blur-[60px] -z-10"></div>
                     <div class="relative w-full h-full">
@@ -143,7 +165,7 @@
                 </div>
 
                 <!-- Описание -->
-                <p class="text-lg md:text-2xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed font-light mb-10">
+                <p class="text-lg md:text-2xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed font-light mb-10" data-i18n-html="heroDesc">
                     Превращаю стандартные таблицы в полноценные <strong class="text-slate-800 dark:text-slate-200 font-semibold">CRM и ERP-системы</strong> с современным web-интерфейсом, работающим на любом устройстве.
                 </p>
 
@@ -151,7 +173,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                     <a href="https://t.me/pafnut1991" target="_blank" rel="noreferrer"
                        class="flex justify-center items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/20 hover:shadow-blue-600/40">
-                        Обсудить проект <i data-lucide="send" class="w-5 h-5"></i>
+                        <span data-i18n="heroCta">Обсудить проект</span> <i data-lucide="send" class="w-5 h-5"></i>
                     </a>
                     <a href="https://wa.me/79773407808" target="_blank"
                        class="flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-8 py-4 rounded-full font-medium text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
@@ -159,8 +181,8 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- МОКАПЫ ДЛЯ ДЕСКТОПНОЙ ВЕРСИИ (скрыты на мобилках) -->
+
+            <!-- МОКАПЫ ДЛЯ ДЕСКТОПНОЙ ВЕРСИИ -->
             <div class="hidden lg:flex lg:col-span-6 relative justify-center items-center h-[550px]">
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-tr from-blue-100/30 to-emerald-100/30 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-full blur-[100px] -z-10"></div>
                 <div class="relative w-full h-full flex items-center justify-center">
@@ -184,18 +206,18 @@
                     <div class="w-16 h-16 bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="layers" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Структурируют процессы</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4" data-i18n="benefit1Title">Структурируют процессы</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light" data-i18n="benefit1Desc">
                         Превращаю разрозненные файлы в единую систему, где каждый процесс оцифрован и прозрачен.
                     </p>
                 </div>
-                
+
                 <div class="bg-white dark:bg-slate-800/80 p-8 lg:p-10 rounded-[2.5rem] shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-xl dark:hover:shadow-amber-500/5 hover:border-amber-100 dark:hover:border-amber-800/50 transition-all duration-300 group text-center md:text-left">
                     <div class="w-16 h-16 bg-amber-50 dark:bg-amber-950/50 text-amber-500 dark:text-amber-400 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="zap" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Ускоряют работу</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4" data-i18n="benefit2Title">Ускоряют работу</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light" data-i18n="benefit2Desc">
                         Удобный web-интерфейс экономит часы: поиск и управление данными происходят в пару кликов.
                     </p>
                 </div>
@@ -204,8 +226,8 @@
                     <div class="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-500 dark:text-emerald-400 flex items-center justify-center rounded-2xl mb-6 mx-auto md:mx-0 group-hover:scale-110 transition-transform duration-300">
                         <i data-lucide="shield-check" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Снижают ошибки</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-4" data-i18n="benefit3Title">Снижают ошибки</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-light" data-i18n="benefit3Desc">
                         Автоматические расчеты и жесткая логика сводят человеческий фактор к минимуму.
                     </p>
                 </div>
@@ -215,8 +237,8 @@
         <!-- Секция Портфолио -->
         <section class="mt-32 md:mt-48 mb-24 relative">
             <div class="text-center mb-16 max-w-3xl mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 dark:text-white">Больше, чем просто таблицы</h2>
-                <p class="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 dark:text-white" data-i18n="portfolioTitle">Больше, чем просто таблицы</h2>
+                <p class="text-xl text-slate-500 dark:text-slate-400 font-light leading-relaxed" data-i18n="portfolioDesc">
                     Сложные данные остаются под капотом, а вы работаете в чистом и быстром интерфейсе.
                 </p>
             </div>
@@ -263,35 +285,35 @@
                 <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-6 px-6 pb-12">
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049361.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Панель управления</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Единый дашборд со всеми проектами.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide1Title">Панель управления</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide1Desc">Единый дашборд со всеми проектами.</p></div>
                     </div>
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_04931f.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Контроль оплат</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Автоматический учет дебиторки.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide2Title">Контроль оплат</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide2Desc">Автоматический учет дебиторки.</p></div>
                     </div>
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049305.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Интерфейс системы</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Удобная навигация по разделам CRM.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide3Title">Интерфейс системы</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide3Desc">Удобная навигация по разделам CRM.</p></div>
                     </div>
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049323.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Расчёт unit-экономики</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Автоматический расчёт маржи и себестоимости.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide4Title">Расчёт unit-экономики</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide4Desc">Автоматический расчёт маржи и себестоимости.</p></div>
                     </div>
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_04933d.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Планирование продаж</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">План/факт анализ заказов по моделям.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide5Title">Планирование продаж</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide5Desc">План/факт анализ заказов по моделям.</p></div>
                     </div>
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049341.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Управление производством</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Учёт тканей, раскроя и остатков на складе.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide6Title">Управление производством</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide6Desc">Учёт тканей, раскроя и остатков на складе.</p></div>
                     </div>
                     <div class="min-w-[85vw] snap-center">
                         <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_0493612.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white">Журнал заказов</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Полный реестр заказов с отслеживанием статусов.</p></div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide7Title">Журнал заказов</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide7Desc">Полный реестр заказов с отслеживанием статусов.</p></div>
                     </div>
                 </div>
                 <div class="flex justify-center items-center gap-2 mt-2 text-slate-300 dark:text-slate-600 animate-pulse">
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i><span class="text-xs font-medium uppercase tracking-[0.2em]">Листайте портфолио</span><i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    <i data-lucide="chevron-left" class="w-4 h-4"></i><span class="text-xs font-medium uppercase tracking-[0.2em]" data-i18n="scrollHint">Листайте портфолио</span><i data-lucide="chevron-right" class="w-4 h-4"></i>
                 </div>
             </div>
         </section>
@@ -304,12 +326,12 @@
             <div class="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-[6px] border-white dark:border-slate-800 mb-8 shadow-2xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
                  <img src="image_048c3e.png" alt="Павел Андреев" class="w-full h-full object-cover">
             </div>
-            <h2 class="text-3xl md:text-4xl font-bold mb-1 dark:text-white">Павел Андреев</h2>
-            <div class="text-blue-600 dark:text-blue-400 font-semibold mb-6 tracking-widest uppercase text-xs">Архитектор данных</div>
-            <p class="text-slate-500 dark:text-slate-400 mb-10 max-w-md text-lg font-light leading-relaxed">
+            <h2 class="text-3xl md:text-4xl font-bold mb-1 dark:text-white" data-i18n="footerName">Павел Андреев</h2>
+            <div class="text-blue-600 dark:text-blue-400 font-semibold mb-6 tracking-widest uppercase text-xs" data-i18n="footerRole">Архитектор данных</div>
+            <p class="text-slate-500 dark:text-slate-400 mb-10 max-w-md text-lg font-light leading-relaxed" data-i18n="footerDesc">
                 Проектирование и разработка систем автоматизации бизнеса на базе Google Таблиц.
             </p>
-            
+
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl px-6">
                 <a href="https://t.me/pafnut1991" target="_blank" class="flex items-center justify-center gap-3 text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all px-8 py-5 rounded-2xl shadow-lg shadow-blue-600/20">
                     <i data-lucide="message-circle" class="w-6 h-6"></i> Telegram
@@ -323,7 +345,7 @@
             </div>
 
             <div class="mt-20 text-slate-300 dark:text-slate-600 text-[10px] font-light tracking-[0.3em] uppercase">
-                © <span id="year"></span> Павел Андреев
+                © <span id="year"></span> <span data-i18n="footerCopyright">Павел Андреев</span>
             </div>
         </div>
     </footer>
@@ -334,18 +356,183 @@
             <div class="w-10 h-10 bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center shrink-0">
                 <i data-lucide="info" class="w-5 h-5"></i>
             </div>
-            <p class="text-sm text-slate-600 dark:text-slate-300 leading-snug">
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-snug" data-i18n="cookieText">
                 Мы собираем cookies, чтобы сайт работал быстрее и удобнее.
             </p>
         </div>
-        <button id="close-cookie" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold py-3.5 rounded-2xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
+        <button id="close-cookie" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-bold py-3.5 rounded-2xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors" data-i18n="cookieBtn">
             Ок
         </button>
     </div>
 
     <script>
+        // === Переводы ===
+        var translations = {
+            ru: {
+                navLogo: 'П',
+                navName: 'Павел Андреев',
+                navTelegram: 'Написать в Telegram',
+                heroTag: 'Архитектура данных для бизнеса',
+                heroTitle: 'А вы знали, что <br class="hidden md:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Таблицы</span> <br/>могут выглядеть вот так?',
+                heroDesc: 'Превращаю стандартные таблицы в полноценные <strong class="text-slate-800 dark:text-slate-200 font-semibold">CRM и ERP-системы</strong> с современным web-интерфейсом, работающим на любом устройстве.',
+                heroCta: 'Обсудить проект',
+                benefit1Title: 'Структурируют процессы',
+                benefit1Desc: 'Превращаю разрозненные файлы в единую систему, где каждый процесс оцифрован и прозрачен.',
+                benefit2Title: 'Ускоряют работу',
+                benefit2Desc: 'Удобный web-интерфейс экономит часы: поиск и управление данными происходят в пару кликов.',
+                benefit3Title: 'Снижают ошибки',
+                benefit3Desc: 'Автоматические расчеты и жесткая логика сводят человеческий фактор к минимуму.',
+                portfolioTitle: 'Больше, чем просто таблицы',
+                portfolioDesc: 'Сложные данные остаются под капотом, а вы работаете в чистом и быстром интерфейсе.',
+                slide1Title: 'Панель управления',
+                slide1Desc: 'Единый дашборд со всеми проектами.',
+                slide2Title: 'Контроль оплат',
+                slide2Desc: 'Автоматический учет дебиторки.',
+                slide3Title: 'Интерфейс системы',
+                slide3Desc: 'Удобная навигация по разделам CRM.',
+                slide4Title: 'Расчёт unit-экономики',
+                slide4Desc: 'Автоматический расчёт маржи и себестоимости.',
+                slide5Title: 'Планирование продаж',
+                slide5Desc: 'План/факт анализ заказов по моделям.',
+                slide6Title: 'Управление производством',
+                slide6Desc: 'Учёт тканей, раскроя и остатков на складе.',
+                slide7Title: 'Журнал заказов',
+                slide7Desc: 'Полный реестр заказов с отслеживанием статусов.',
+                scrollHint: 'Листайте портфолио',
+                footerName: 'Павел Андреев',
+                footerRole: 'Архитектор данных',
+                footerDesc: 'Проектирование и разработка систем автоматизации бизнеса на базе Google Таблиц.',
+                footerCopyright: 'Павел Андреев',
+                cookieText: 'Мы собираем cookies, чтобы сайт работал быстрее и удобнее.',
+                cookieBtn: 'Ок'
+            },
+            en: {
+                navLogo: 'P',
+                navName: 'Pavel Andreev',
+                navTelegram: 'Message on Telegram',
+                heroTag: 'Data architecture for business',
+                heroTitle: 'Did you know that <br class="hidden md:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Sheets</span> <br/>can look like this?',
+                heroDesc: 'I turn ordinary spreadsheets into full-featured <strong class="text-slate-800 dark:text-slate-200 font-semibold">CRM and ERP systems</strong> with a modern web interface that works on any device.',
+                heroCta: 'Discuss a project',
+                benefit1Title: 'Streamline processes',
+                benefit1Desc: 'I turn scattered files into a unified system where every process is digitized and transparent.',
+                benefit2Title: 'Speed up work',
+                benefit2Desc: 'A user-friendly web interface saves hours: search and data management in just a few clicks.',
+                benefit3Title: 'Reduce errors',
+                benefit3Desc: 'Automated calculations and strict logic minimize human error.',
+                portfolioTitle: 'More than just spreadsheets',
+                portfolioDesc: 'Complex data stays under the hood while you work in a clean, fast interface.',
+                slide1Title: 'Dashboard',
+                slide1Desc: 'A single dashboard with all your projects.',
+                slide2Title: 'Payment tracking',
+                slide2Desc: 'Automated accounts receivable management.',
+                slide3Title: 'System interface',
+                slide3Desc: 'Easy navigation across CRM sections.',
+                slide4Title: 'Unit economics',
+                slide4Desc: 'Automated margin and cost calculation.',
+                slide5Title: 'Sales planning',
+                slide5Desc: 'Plan vs. actual order analysis by model.',
+                slide6Title: 'Production management',
+                slide6Desc: 'Fabric, cutting, and stock tracking.',
+                slide7Title: 'Order journal',
+                slide7Desc: 'Complete order registry with status tracking.',
+                scrollHint: 'Scroll to see more',
+                footerName: 'Pavel Andreev',
+                footerRole: 'Data Architect',
+                footerDesc: 'Design and development of business automation systems based on Google Sheets.',
+                footerCopyright: 'Pavel Andreev',
+                cookieText: 'We use cookies to make the site faster and more convenient.',
+                cookieBtn: 'OK'
+            },
+            it: {
+                navLogo: 'P',
+                navName: 'Pavel Andreev',
+                navTelegram: 'Scrivi su Telegram',
+                heroTag: 'Architettura dati per il business',
+                heroTitle: 'Sapevi che <br class="hidden md:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Sheets</span> <br/>può avere questo aspetto?',
+                heroDesc: 'Trasformo fogli di calcolo ordinari in <strong class="text-slate-800 dark:text-slate-200 font-semibold">sistemi CRM e ERP</strong> completi con un\'interfaccia web moderna che funziona su qualsiasi dispositivo.',
+                heroCta: 'Discuti un progetto',
+                benefit1Title: 'Organizzano i processi',
+                benefit1Desc: 'Trasformo file sparsi in un sistema unificato dove ogni processo è digitalizzato e trasparente.',
+                benefit2Title: 'Accelerano il lavoro',
+                benefit2Desc: 'Un\'interfaccia web intuitiva fa risparmiare ore: ricerca e gestione dei dati in pochi clic.',
+                benefit3Title: 'Riducono gli errori',
+                benefit3Desc: 'Calcoli automatici e logica rigorosa riducono al minimo l\'errore umano.',
+                portfolioTitle: 'Più di semplici fogli di calcolo',
+                portfolioDesc: 'I dati complessi restano sotto il cofano, mentre lavori in un\'interfaccia pulita e veloce.',
+                slide1Title: 'Pannello di controllo',
+                slide1Desc: 'Una dashboard unica con tutti i progetti.',
+                slide2Title: 'Controllo dei pagamenti',
+                slide2Desc: 'Gestione automatica dei crediti.',
+                slide3Title: 'Interfaccia di sistema',
+                slide3Desc: 'Navigazione facile tra le sezioni del CRM.',
+                slide4Title: 'Unit economics',
+                slide4Desc: 'Calcolo automatico di margini e costi.',
+                slide5Title: 'Pianificazione vendite',
+                slide5Desc: 'Analisi piano/fatto degli ordini per modello.',
+                slide6Title: 'Gestione produzione',
+                slide6Desc: 'Monitoraggio tessuti, taglio e scorte.',
+                slide7Title: 'Registro ordini',
+                slide7Desc: 'Registro completo degli ordini con tracciamento dello stato.',
+                scrollHint: 'Scorri il portfolio',
+                footerName: 'Pavel Andreev',
+                footerRole: 'Architetto dei dati',
+                footerDesc: 'Progettazione e sviluppo di sistemi di automazione aziendale basati su Google Sheets.',
+                footerCopyright: 'Pavel Andreev',
+                cookieText: 'Utilizziamo i cookie per rendere il sito più veloce e comodo.',
+                cookieBtn: 'OK'
+            }
+        };
+
+        // Определяем язык
+        function detectLang() {
+            var saved = localStorage.getItem('lang');
+            if (saved && translations[saved]) return saved;
+            var nav = (navigator.language || navigator.userLanguage || 'ru').toLowerCase();
+            if (nav.startsWith('it')) return 'it';
+            if (nav.startsWith('en')) return 'en';
+            return 'ru';
+        }
+
+        function applyLang(lang) {
+            var t = translations[lang];
+            if (!t) return;
+
+            document.documentElement.lang = lang === 'ru' ? 'ru' : lang === 'it' ? 'it' : 'en';
+
+            // Текстовые элементы
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+
+            // HTML-элементы (с вложенной разметкой)
+            document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) el.innerHTML = t[key];
+            });
+
+            // Активная кнопка языка
+            document.querySelectorAll('#lang-switcher .lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+
+            localStorage.setItem('lang', lang);
+        }
+
+        // === Инициализация ===
         lucide.createIcons();
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Язык
+        var currentLang = detectLang();
+        applyLang(currentLang);
+
+        document.querySelectorAll('#lang-switcher .lang-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                applyLang(this.getAttribute('data-lang'));
+            });
+        });
 
         // Логика переключения темы
         document.getElementById('theme-toggle').addEventListener('click', function() {
@@ -355,10 +542,10 @@
         });
 
         // Логика куки
-        const banner = document.getElementById('cookie-banner');
-        const btn = document.getElementById('close-cookie');
+        var banner = document.getElementById('cookie-banner');
+        var cookieBtn = document.getElementById('close-cookie');
 
-        btn.onclick = () => {
+        cookieBtn.onclick = function() {
             banner.classList.add('hidden-banner');
             localStorage.setItem('cookiesAccepted', 'true');
         };
