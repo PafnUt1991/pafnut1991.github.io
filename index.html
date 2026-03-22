@@ -116,6 +116,115 @@
             opacity: 0;
             pointer-events: none;
         }
+
+        /* Лайтбокс — opacity управляется через JS из-за @layer в Tailwind CDN */
+        #lb-modal img {
+            transition: transform 0.3s ease, opacity 0.15s ease;
+        }
+
+        /* Карусель — подсказка при наведении */
+        .carousel-slide .carousel-img-wrap {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .carousel-slide .carousel-img-wrap:hover {
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .dark .carousel-slide .carousel-img-wrap:hover {
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+
+        /* Нормализация высоты изображений в карусели */
+        .carousel-slide .carousel-img-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .carousel-slide .carousel-img-wrap img {
+            width: 100%;
+            height: 280px;
+            object-fit: contain;
+            object-position: center top;
+        }
+        @media (min-width: 768px) {
+            .carousel-slide .carousel-img-wrap img {
+                height: 420px;
+            }
+        }
+        @media (min-width: 1024px) {
+            .carousel-slide .carousel-img-wrap img {
+                height: 540px;
+            }
+        }
+
+        /* Кнопки навигации карусели */
+        .carousel-nav-btn {
+            position: absolute;
+            top: calc(50% - 40px);
+            transform: translateY(-50%);
+            z-index: 20;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #334155;
+        }
+        .carousel-nav-btn:hover {
+            background: #fff;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transform: translateY(-50%) scale(1.08);
+        }
+        .carousel-nav-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        .carousel-nav-btn.prev { left: 12px; }
+        .carousel-nav-btn.next { right: 12px; }
+        .dark .carousel-nav-btn {
+            background: rgba(30,41,59,0.92);
+            border-color: rgba(255,255,255,0.1);
+            color: #e2e8f0;
+        }
+        .dark .carousel-nav-btn:hover {
+            background: rgba(30,41,59,1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        @media (max-width: 767px) {
+            .carousel-nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+            .carousel-nav-btn.prev { left: 4px; }
+            .carousel-nav-btn.next { right: 4px; }
+        }
+
+        /* Drag-курсор */
+        #portfolio-carousel {
+            cursor: grab;
+        }
+        #portfolio-carousel.dragging {
+            cursor: grabbing;
+            scroll-snap-type: none;
+        }
+        #portfolio-carousel.dragging * {
+            pointer-events: none;
+        }
+
+        /* Nudge-анимация (пульсация стрелок) */
+        @keyframes nudge-hint {
+            0%, 100% { transform: translateX(0); opacity: 0.6; }
+            50% { transform: translateX(6px); opacity: 1; }
+        }
+        .nudge-arrows {
+            animation: nudge-hint 1.2s ease-in-out 3;
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden">
@@ -187,7 +296,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                     <a href="https://t.me/pafnut1991" target="_blank" rel="noreferrer"
                        class="flex justify-center items-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-blue-700 transition-colors shadow-xl shadow-blue-600/20 hover:shadow-blue-600/40">
-                        <span data-i18n="heroCta">Обсудить проект</span> <i data-lucide="send" class="w-5 h-5"></i>
+                        <span data-i18n="heroCta">Обсудить ваш проект</span> <i data-lucide="send" class="w-5 h-5"></i>
                     </a>
                     <a href="https://wa.me/79773407808" target="_blank"
                        class="flex justify-center items-center gap-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-8 py-4 rounded-full font-medium text-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
@@ -197,16 +306,16 @@
             </div>
 
             <!-- МОКАПЫ ДЛЯ ДЕСКТОПНОЙ ВЕРСИИ -->
-            <div class="hidden lg:flex lg:col-span-6 relative justify-center items-center h-[550px]">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-tr from-blue-100/30 to-emerald-100/30 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-full blur-[100px] -z-10"></div>
+            <div class="hidden lg:flex lg:col-span-6 relative justify-center items-center h-[700px]">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-blue-100/30 to-emerald-100/30 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-full blur-[100px] -z-10"></div>
                 <div class="relative w-full h-full flex items-center justify-center">
-                    <div class="absolute z-10 w-[85%] transition-transform duration-700 hover:scale-[1.02]">
+                    <div class="absolute z-10 w-[105%] transition-transform duration-700 hover:scale-[1.02]">
                         <img src="desktop.png" alt="Desktop CRM" class="w-full h-auto drop-shadow-2xl">
                     </div>
-                    <div class="absolute z-20 w-[42%] -bottom-4 -left-8 animate-float-delayed">
+                    <div class="absolute z-20 w-[44%] -bottom-4 -left-10 animate-float-delayed">
                         <img src="tablet.png" alt="Tablet Interface" class="w-full h-auto drop-shadow-2xl">
                     </div>
-                    <div class="absolute z-30 w-[20%] -bottom-10 -right-4 animate-float">
+                    <div class="absolute z-30 w-[21%] -bottom-10 -right-4 animate-float">
                         <img src="mobile.png" alt="Mobile Interface" class="w-full h-auto drop-shadow-2xl">
                     </div>
                 </div>
@@ -257,81 +366,128 @@
                 </p>
             </div>
 
-            <!-- Десктопный коллаж -->
-            <div class="hidden md:block relative w-full h-[600px] lg:h-[850px] bg-slate-100 dark:bg-slate-800/50 rounded-[3rem] overflow-hidden border border-slate-200/60 dark:border-slate-700/60 shadow-inner group p-8">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[92%] lg:w-[88%] z-10 transition-all duration-700 opacity-40 hover:opacity-100 shadow-2xl rounded-2xl border border-slate-300/50 dark:border-slate-600/50 bg-white dark:bg-slate-900 overflow-hidden">
-                    <img src="image_049361.png" class="w-full h-auto block" alt="CRM Main">
-                </div>
-                <div class="absolute top-12 left-12 w-[45%] lg:w-[42%] z-20 animate-float">
-                    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-slate-600/60">
-                        <img src="image_04931f.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-700 block">
+            <!-- Карусель скриншотов -->
+            <div class="relative">
+                <!-- Кнопки навигации -->
+                <button class="carousel-nav-btn prev" onclick="carouselNav(-1)" aria-label="Назад">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="carousel-nav-btn next" onclick="carouselNav(1)" aria-label="Вперёд">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+
+                <div id="portfolio-carousel" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-4 md:gap-6 px-4 md:px-8 pb-8">
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="ДБ проектов.png" class="rounded-xl md:rounded-2xl w-full block" alt="CRM-дашборд проектов" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide1Title">CRM-дашборд проектов</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide1Desc">Все проекты, статусы и прогресс — в одном окне</p></div>
                     </div>
-                </div>
-                <div class="absolute bottom-16 right-16 w-[45%] lg:w-[38%] z-40 animate-float-delayed">
-                    <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-slate-600/60">
-                        <img src="image_049305.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-700 block">
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Панель колориста.png" class="rounded-xl md:rounded-2xl w-full block" alt="Личный кабинет сотрудника" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide2Title">Личный кабинет сотрудника</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide2Desc">Рабочие сессии, задачи и расчёт оплаты в реальном времени</p></div>
                     </div>
-                </div>
-                <div class="absolute top-20 right-10 w-[40%] lg:w-[36%] z-30 animate-float-slow">
-                    <div class="bg-white/85 dark:bg-slate-800/85 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-slate-600/60">
-                        <img src="image_049323.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-700 block" alt="Unit-экономика">
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="График финансовых поступлений от КА.png" class="rounded-xl md:rounded-2xl w-full block" alt="План ожидаемых оплат" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide3Title">План ожидаемых оплат</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide3Desc">Финансовый календарь поступлений по каждому контрагенту</p></div>
                     </div>
-                </div>
-                <div class="absolute bottom-24 left-16 w-[38%] lg:w-[34%] z-35 animate-float-delayed">
-                    <div class="bg-white/85 dark:bg-slate-800/85 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-slate-600/60">
-                        <img src="image_04933d.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-700 block" alt="Планирование продаж">
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Контроль документов по проектам.png" class="rounded-xl md:rounded-2xl w-full block" alt="Контроль документооборота" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide4Title">Контроль документооборота</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide4Desc">Статус каждого документа привязан к проекту</p></div>
                     </div>
-                </div>
-                <div class="absolute top-1/2 right-8 -translate-y-1/2 w-[35%] lg:w-[32%] z-25 animate-float">
-                    <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-slate-600/60">
-                        <img src="image_049341.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-700 block" alt="Управление производством">
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Взаиморасчеты с партнерами.png" class="rounded-xl md:rounded-2xl w-full block" alt="Взаиморасчёты с агентствами" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide5Title">Взаиморасчёты с агентствами</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide5Desc">Помесячная детализация долгов и оплат по каждому партнёру</p></div>
                     </div>
-                </div>
-                <div class="absolute bottom-8 left-1/2 -translate-x-1/2 w-[50%] lg:w-[45%] z-15 opacity-50 hover:opacity-100 transition-opacity duration-500">
-                    <div class="bg-white/75 dark:bg-slate-800/75 backdrop-blur-md p-3 rounded-[2.5rem] shadow-2xl border border-white/60 dark:border-slate-600/60">
-                        <img src="image_0493612.png" class="w-full h-auto rounded-3xl border border-slate-100 dark:border-slate-700 block" alt="Журнал заказов">
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Годовой план.png" class="rounded-xl md:rounded-2xl w-full block" alt="Годовой производственный план" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide6Title">Годовой производственный план</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide6Desc">Понедельное планирование выпуска по моделям и размерам</p></div>
                     </div>
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Регистрация заказов.png" class="rounded-xl md:rounded-2xl w-full block" alt="Реестр заказов" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide7Title">Реестр заказов</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide7Desc">Полный журнал заказов с артикулами, статусами и процентом готовности</p></div>
+                    </div>
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Расчет ЗП.png" class="rounded-xl md:rounded-2xl w-full block" alt="Расчёт заработной платы" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide8Title">Расчёт заработной платы</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide8Desc">Сдельный расчёт по операциям: крой, пошив, упаковка</p></div>
+                    </div>
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Подкапотные расчеты.png" class="rounded-xl md:rounded-2xl w-full block" alt="Движок расчётов" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide9Title">Движок расчётов</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide9Desc">Скрытая матрица: коэффициенты, скорости, ёмкости склада</p></div>
+                    </div>
+
+                    <div class="carousel-slide w-[78vw] md:w-[75vw] lg:w-[80vw] snap-center flex-shrink-0">
+                        <div class="carousel-img-wrap bg-white dark:bg-slate-800 p-2 md:p-3 rounded-2xl md:rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 cursor-pointer" onclick="openLightbox(this)">
+                            <img src="Расчет промо маржинальности.png" class="rounded-xl md:rounded-2xl w-full block" alt="Калькулятор промо-маржинальности" />
+                        </div>
+                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide10Title">Калькулятор промо-маржинальности</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide10Desc">Мгновенный расчёт рентабельности промо-акций</p></div>
+                    </div>
+
                 </div>
             </div>
-
-            <!-- Мобильная карусель -->
-            <div class="md:hidden mt-8">
-                <div class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-6 px-6 pb-12">
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049361.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide1Title">Панель управления</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide1Desc">Единый дашборд со всеми проектами.</p></div>
-                    </div>
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_04931f.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide2Title">Контроль оплат</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide2Desc">Автоматический учет дебиторки.</p></div>
-                    </div>
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049305.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide3Title">Интерфейс системы</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide3Desc">Удобная навигация по разделам CRM.</p></div>
-                    </div>
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049323.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide4Title">Расчёт unit-экономики</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide4Desc">Автоматический расчёт маржи и себестоимости.</p></div>
-                    </div>
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_04933d.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide5Title">Планирование продаж</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide5Desc">План/факт анализ заказов по моделям.</p></div>
-                    </div>
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_049341.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide6Title">Управление производством</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide6Desc">Учёт тканей, раскроя и остатков на складе.</p></div>
-                    </div>
-                    <div class="min-w-[85vw] snap-center">
-                        <div class="bg-white dark:bg-slate-800 p-3 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700"><img src="image_0493612.png" class="rounded-2xl w-full h-auto" /></div>
-                        <div class="mt-4 px-2"><h4 class="font-bold dark:text-white" data-i18n="slide7Title">Журнал заказов</h4><p class="text-sm text-slate-500 dark:text-slate-400 mt-1" data-i18n="slide7Desc">Полный реестр заказов с отслеживанием статусов.</p></div>
-                    </div>
-                </div>
-                <div class="flex justify-center items-center gap-2 mt-2 text-slate-300 dark:text-slate-600 animate-pulse">
-                    <i data-lucide="chevron-left" class="w-4 h-4"></i><span class="text-xs font-medium uppercase tracking-[0.2em]" data-i18n="scrollHint">Листайте портфолио</span><i data-lucide="chevron-right" class="w-4 h-4"></i>
+            <!-- Счётчик слайдов -->
+            <div class="flex justify-center items-center gap-3 mt-2">
+                <span id="carousel-counter" class="text-xs font-semibold text-slate-400 dark:text-slate-500 tabular-nums">1 / 10</span>
+                <span class="text-slate-300 dark:text-slate-600">·</span>
+                <div class="flex items-center gap-1.5 text-slate-300 dark:text-slate-600">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span class="text-xs font-medium uppercase tracking-[0.2em]" data-i18n="scrollHint">Листайте портфолио</span>
+                    <svg class="w-3.5 h-3.5 nudge-arrows" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Лайтбокс -->
+    <div id="lb-modal" class="fixed inset-0 z-[200] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center cursor-pointer" style="display:none;pointer-events:none">
+        <!-- Закрыть -->
+        <button class="absolute top-4 right-4 md:top-6 md:right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all z-10" onclick="closeLightbox(event)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <!-- Навигация влево -->
+        <button id="lb-prev" class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all z-10" onclick="lbNav(-1); event.stopPropagation();">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <!-- Навигация вправо -->
+        <button id="lb-next" class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all z-10" onclick="lbNav(1); event.stopPropagation();">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <!-- Изображение -->
+        <div class="flex-1 flex items-center justify-center w-full px-14 md:px-20 pt-16 pb-4" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" class="max-w-full max-h-full object-contain rounded-lg shadow-2xl" />
+        </div>
+        <!-- Подпись + счётчик -->
+        <div class="pb-6 md:pb-8 text-center px-6 flex-shrink-0" onclick="event.stopPropagation()">
+            <h4 id="lb-title" class="text-white font-bold text-lg md:text-xl mb-1"></h4>
+            <p id="lb-desc" class="text-white/60 text-sm md:text-base mb-3"></p>
+            <span id="lb-counter" class="text-white/40 text-xs font-semibold tabular-nums tracking-wider"></span>
+        </div>
+    </div>
 
     <!-- Футер -->
     <footer class="mt-24 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-20">
@@ -389,7 +545,7 @@
                 heroTag: 'Архитектура данных для бизнеса',
                 heroTitle: 'А вы знали, что <br class="hidden md:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Таблицы</span> <br/>могут выглядеть вот так?',
                 heroDesc: 'Превращаю стандартные таблицы в полноценные <strong class="text-slate-800 dark:text-slate-200 font-semibold">CRM и ERP-системы</strong> с современным web-интерфейсом, работающим на любом устройстве.',
-                heroCta: 'Обсудить проект',
+                heroCta: 'Обсудить ваш проект',
                 benefit1Title: 'Структурируют процессы',
                 benefit1Desc: 'Превращаю разрозненные файлы в единую систему, где каждый процесс оцифрован и прозрачен.',
                 benefit2Title: 'Ускоряют работу',
@@ -398,20 +554,26 @@
                 benefit3Desc: 'Автоматические расчеты и жесткая логика сводят человеческий фактор к минимуму.',
                 portfolioTitle: 'Больше, чем просто таблицы',
                 portfolioDesc: 'Сложные данные остаются под капотом, а вы работаете в чистом и быстром интерфейсе.',
-                slide1Title: 'Панель управления',
-                slide1Desc: 'Единый дашборд со всеми проектами.',
-                slide2Title: 'Контроль оплат',
-                slide2Desc: 'Автоматический учет дебиторки.',
-                slide3Title: 'Интерфейс системы',
-                slide3Desc: 'Удобная навигация по разделам CRM.',
-                slide4Title: 'Расчёт unit-экономики',
-                slide4Desc: 'Автоматический расчёт маржи и себестоимости.',
-                slide5Title: 'Планирование продаж',
-                slide5Desc: 'План/факт анализ заказов по моделям.',
-                slide6Title: 'Управление производством',
-                slide6Desc: 'Учёт тканей, раскроя и остатков на складе.',
-                slide7Title: 'Журнал заказов',
-                slide7Desc: 'Полный реестр заказов с отслеживанием статусов.',
+                slide1Title: 'CRM-дашборд проектов',
+                slide1Desc: 'Все проекты, статусы и прогресс — в одном окне',
+                slide2Title: 'Личный кабинет сотрудника',
+                slide2Desc: 'Рабочие сессии, задачи и расчёт оплаты в реальном времени',
+                slide3Title: 'План ожидаемых оплат',
+                slide3Desc: 'Финансовый календарь поступлений по каждому контрагенту',
+                slide4Title: 'Контроль документооборота',
+                slide4Desc: 'Статус каждого документа привязан к проекту',
+                slide5Title: 'Взаиморасчёты с агентствами',
+                slide5Desc: 'Помесячная детализация долгов и оплат по каждому партнёру',
+                slide6Title: 'Годовой производственный план',
+                slide6Desc: 'Понедельное планирование выпуска по моделям и размерам',
+                slide7Title: 'Реестр заказов',
+                slide7Desc: 'Полный журнал заказов с артикулами, статусами и процентом готовности',
+                slide8Title: 'Расчёт заработной платы',
+                slide8Desc: 'Сдельный расчёт по операциям: крой, пошив, упаковка',
+                slide9Title: 'Движок расчётов',
+                slide9Desc: 'Скрытая матрица: коэффициенты, скорости, ёмкости склада',
+                slide10Title: 'Калькулятор промо-маржинальности',
+                slide10Desc: 'Мгновенный расчёт рентабельности промо-акций',
                 scrollHint: 'Листайте портфолио',
                 footerName: 'Павел Андреев',
                 footerRole: 'Архитектор данных',
@@ -427,7 +589,7 @@
                 heroTag: 'Data architecture for business',
                 heroTitle: 'Ever seen <br class="hidden md:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Sheets</span> <br/>look like this?',
                 heroDesc: 'I transform standard spreadsheets into powerful <strong class="text-slate-800 dark:text-slate-200 font-semibold">CRM & ERP systems</strong> with a sleek web interface that runs on any device.',
-                heroCta: 'Let\u2019s talk',
+                heroCta: 'Discuss your project',
                 benefit1Title: 'Structured processes',
                 benefit1Desc: 'Scattered files become one unified system where every workflow is digitized and transparent.',
                 benefit2Title: 'Faster workflows',
@@ -436,20 +598,26 @@
                 benefit3Desc: 'Automated calculations and strict logic keep human error to a minimum.',
                 portfolioTitle: 'Way beyond spreadsheets',
                 portfolioDesc: 'The complexity stays under the hood. You get a clean, lightning-fast interface.',
-                slide1Title: 'Dashboard',
-                slide1Desc: 'All your projects in one place.',
-                slide2Title: 'Payment control',
-                slide2Desc: 'Automated receivables tracking.',
-                slide3Title: 'CRM interface',
-                slide3Desc: 'Smooth navigation across every section.',
-                slide4Title: 'Unit economics',
-                slide4Desc: 'Margins and costs calculated automatically.',
-                slide5Title: 'Sales planning',
-                slide5Desc: 'Plan vs. actual analysis by product line.',
-                slide6Title: 'Production',
-                slide6Desc: 'Fabric, cutting, and inventory at a glance.',
-                slide7Title: 'Order log',
-                slide7Desc: 'Full order registry with live status tracking.',
+                slide1Title: 'CRM Project Dashboard',
+                slide1Desc: 'All projects, statuses, and progress in one view',
+                slide2Title: 'Employee Portal',
+                slide2Desc: 'Work sessions, tasks, and pay calculated in real time',
+                slide3Title: 'Payment Forecast',
+                slide3Desc: 'Financial calendar of expected income by counterparty',
+                slide4Title: 'Document Control',
+                slide4Desc: 'Every document status linked to its project',
+                slide5Title: 'Agency Settlements',
+                slide5Desc: 'Monthly breakdown of debts and payments per partner',
+                slide6Title: 'Annual Production Plan',
+                slide6Desc: 'Weekly output planning by model and size',
+                slide7Title: 'Order Registry',
+                slide7Desc: 'Full order log with SKUs, statuses, and completion rate',
+                slide8Title: 'Payroll Calculator',
+                slide8Desc: 'Piecework pay by operation: cutting, sewing, packing',
+                slide9Title: 'Calculation Engine',
+                slide9Desc: 'Hidden matrix: coefficients, speeds, warehouse capacity',
+                slide10Title: 'Promo Margin Calculator',
+                slide10Desc: 'Instant profitability analysis for promotions',
                 scrollHint: 'Swipe to explore',
                 footerName: 'Pavel Andreev',
                 footerRole: 'Data Architect',
@@ -465,7 +633,7 @@
                 heroTag: 'Architettura dati per il business',
                 heroTitle: 'Hai mai visto <br class="hidden md:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Google Sheets</span> <br/>cos\u00ec?',
                 heroDesc: 'Trasformo semplici fogli di calcolo in veri <strong class="text-slate-800 dark:text-slate-200 font-semibold">sistemi CRM e ERP</strong> con un\'interfaccia web moderna che funziona su qualsiasi dispositivo.',
-                heroCta: 'Parliamone',
+                heroCta: 'Parliamo del vostro progetto',
                 benefit1Title: 'Processi strutturati',
                 benefit1Desc: 'File sparsi diventano un sistema unico dove ogni processo \u00e8 digitalizzato e trasparente.',
                 benefit2Title: 'Lavoro pi\u00f9 veloce',
@@ -474,20 +642,26 @@
                 benefit3Desc: 'Calcoli automatici e logica rigorosa riducono al minimo l\'errore umano.',
                 portfolioTitle: 'Ben oltre i fogli di calcolo',
                 portfolioDesc: 'La complessit\u00e0 resta nascosta. Tu lavori in un\'interfaccia pulita e velocissima.',
-                slide1Title: 'Dashboard',
-                slide1Desc: 'Tutti i tuoi progetti in un unico posto.',
-                slide2Title: 'Controllo pagamenti',
-                slide2Desc: 'Gestione automatica dei crediti.',
-                slide3Title: 'Interfaccia CRM',
-                slide3Desc: 'Navigazione fluida tra tutte le sezioni.',
-                slide4Title: 'Unit economics',
-                slide4Desc: 'Margini e costi calcolati automaticamente.',
-                slide5Title: 'Pianificazione vendite',
-                slide5Desc: 'Analisi piano/consuntivo per linea di prodotto.',
-                slide6Title: 'Produzione',
-                slide6Desc: 'Tessuti, taglio e scorte sotto controllo.',
+                slide1Title: 'Dashboard CRM progetti',
+                slide1Desc: 'Tutti i progetti, gli stati e i progressi in un\'unica vista',
+                slide2Title: 'Portale dipendente',
+                slide2Desc: 'Sessioni di lavoro, attivit\u00e0 e calcolo compensi',
+                slide3Title: 'Previsione pagamenti',
+                slide3Desc: 'Calendario finanziario delle entrate previste per cliente',
+                slide4Title: 'Controllo documentale',
+                slide4Desc: 'Stato di ogni documento collegato al progetto',
+                slide5Title: 'Riconciliazione agenzie',
+                slide5Desc: 'Contabilit\u00e0 automatica con i partner',
+                slide6Title: 'Piano produzione annuale',
+                slide6Desc: 'Pianificazione settimanale per modello e taglia',
                 slide7Title: 'Registro ordini',
-                slide7Desc: 'Registro completo con tracciamento in tempo reale.',
+                slide7Desc: 'Registro completo con articoli, stati e percentuale di completamento',
+                slide8Title: 'Calcolo stipendi',
+                slide8Desc: 'Calcolo automatico della retribuzione a cottimo',
+                slide9Title: 'Motore di calcolo',
+                slide9Desc: 'Logica nascosta: coefficienti, velocit\u00e0, capacit\u00e0',
+                slide10Title: 'Calcolatore margini promo',
+                slide10Desc: 'Analisi della redditivit\u00e0 per promozione e prodotto',
                 scrollHint: 'Scorri per scoprire',
                 footerName: 'Pavel Andreev',
                 footerRole: 'Architetto dei dati',
@@ -562,6 +736,234 @@
 
         if (localStorage.getItem('cookiesAccepted') === 'true') {
             banner.classList.add('hidden-banner');
+        }
+
+        // === Лайтбокс с навигацией ===
+        var lbIndex = 0;
+        var lbOpen = false;
+        var dragMoved = false; // глобальная для openLightbox
+
+        // Собираем данные слайдов
+        function getLbSlides() {
+            var slideEls = document.querySelectorAll('#portfolio-carousel .carousel-slide');
+            var arr = [];
+            slideEls.forEach(function(slide) {
+                var img = slide.querySelector('.carousel-img-wrap img');
+                var titleEl = slide.querySelector('h4');
+                var descEl = slide.querySelector('p');
+                arr.push({
+                    src: img ? img.src : '',
+                    title: titleEl ? titleEl.textContent : '',
+                    desc: descEl ? descEl.textContent : ''
+                });
+            });
+            return arr;
+        }
+
+        function showLbSlide(index) {
+            var slides = getLbSlides();
+            if (index < 0 || index >= slides.length) return;
+            lbIndex = index;
+            var lbImg = document.getElementById('lightbox-img');
+            lbImg.style.opacity = '0';
+            setTimeout(function() {
+                lbImg.src = slides[index].src;
+                document.getElementById('lb-title').textContent = slides[index].title;
+                document.getElementById('lb-desc').textContent = slides[index].desc;
+                document.getElementById('lb-counter').textContent = (index + 1) + ' / ' + slides.length;
+                lbImg.style.opacity = '1';
+            }, 150);
+        }
+
+        function openLightbox(el) {
+            if (dragMoved) return;
+            var img = el.querySelector('img');
+            if (!img) return;
+            var slideEl = el.closest('.carousel-slide');
+            var allSlides = document.querySelectorAll('#portfolio-carousel .carousel-slide');
+            var idx = 0;
+            allSlides.forEach(function(s, i) { if (s === slideEl) idx = i; });
+
+            var lb = document.getElementById('lb-modal');
+            lb.style.display = 'flex';
+            lb.style.pointerEvents = 'auto';
+            showLbSlide(idx);
+            document.body.style.overflow = 'hidden';
+            lbOpen = true;
+        }
+
+        function lbNav(dir) {
+            var slides = getLbSlides();
+            var next = lbIndex + dir;
+            if (next < 0) next = slides.length - 1;
+            if (next >= slides.length) next = 0;
+            showLbSlide(next);
+        }
+
+        function closeLightbox(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            var lb = document.getElementById('lb-modal');
+            lb.style.display = 'none';
+            lb.style.pointerEvents = 'none';
+            document.body.style.overflow = '';
+            lbOpen = false;
+        }
+
+        // Закрытие по клику на фон лайтбокса
+        document.getElementById('lb-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        // Клавиши: Escape, стрелки в лайтбоксе
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lbOpen) closeLightbox();
+            if (lbOpen && e.key === 'ArrowLeft') { lbNav(-1); e.preventDefault(); }
+            if (lbOpen && e.key === 'ArrowRight') { lbNav(1); e.preventDefault(); }
+        });
+
+        // Свайп в лайтбоксе (тач)
+        (function() {
+            var lb = document.getElementById('lb-modal');
+            var touchStartX = 0;
+            var touchStartY = 0;
+            lb.addEventListener('touchstart', function(e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            lb.addEventListener('touchend', function(e) {
+                var dx = e.changedTouches[0].clientX - touchStartX;
+                var dy = e.changedTouches[0].clientY - touchStartY;
+                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+                    if (dx > 0) lbNav(-1);
+                    else lbNav(1);
+                }
+            }, { passive: true });
+        })();
+
+        // === Карусель: навигация, drag, nudge, счётчик ===
+        var carousel = document.getElementById('portfolio-carousel');
+        var nudged = false;
+
+        if (carousel) {
+            var slides = carousel.querySelectorAll('.carousel-slide');
+            var totalSlides = slides.length;
+
+            // --- Счётчик слайдов ---
+            var counter = document.getElementById('carousel-counter');
+            function updateCounter() {
+                if (!counter || !slides.length) return;
+                var scrollLeft = carousel.scrollLeft;
+                var containerWidth = carousel.offsetWidth;
+                var currentIndex = 0;
+                var minDist = Infinity;
+                for (var i = 0; i < slides.length; i++) {
+                    var slideCenter = slides[i].offsetLeft + slides[i].offsetWidth / 2;
+                    var dist = Math.abs(slideCenter - scrollLeft - containerWidth / 2);
+                    if (dist < minDist) { minDist = dist; currentIndex = i; }
+                }
+                counter.textContent = (currentIndex + 1) + ' / ' + totalSlides;
+            }
+            carousel.addEventListener('scroll', updateCounter);
+            updateCounter();
+
+            // --- Навигация кнопками ---
+            window.carouselNav = function(dir) {
+                var scrollLeft = carousel.scrollLeft;
+                var containerWidth = carousel.offsetWidth;
+                var currentIndex = 0;
+                var minDist = Infinity;
+                for (var i = 0; i < slides.length; i++) {
+                    var slideCenter = slides[i].offsetLeft + slides[i].offsetWidth / 2;
+                    var dist = Math.abs(slideCenter - scrollLeft - containerWidth / 2);
+                    if (dist < minDist) { minDist = dist; currentIndex = i; }
+                }
+                var nextIndex = Math.max(0, Math.min(totalSlides - 1, currentIndex + dir));
+                var targetSlide = slides[nextIndex];
+                var targetScroll = targetSlide.offsetLeft - (containerWidth - targetSlide.offsetWidth) / 2;
+                carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
+            };
+
+            // --- Drag (перетаскивание мышью) ---
+            var isDragging = false;
+            var startX = 0;
+            var scrollStart = 0;
+
+            carousel.addEventListener('mousedown', function(e) {
+                // Не перехватываем клики по кнопкам навигации
+                if (e.target.closest('.carousel-nav-btn')) return;
+                isDragging = true;
+                dragMoved = false;
+                startX = e.pageX;
+                scrollStart = carousel.scrollLeft;
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                var dx = e.pageX - startX;
+                if (Math.abs(dx) > 8 && !dragMoved) {
+                    dragMoved = true;
+                    carousel.classList.add('dragging');
+                }
+                if (dragMoved) {
+                    carousel.scrollLeft = scrollStart - dx;
+                    e.preventDefault();
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                if (!isDragging) return;
+                isDragging = false;
+                carousel.classList.remove('dragging');
+                // Snap к ближайшему слайду после drag
+                if (dragMoved) {
+                    var scrollLeft = carousel.scrollLeft;
+                    var containerWidth = carousel.offsetWidth;
+                    var closestIndex = 0;
+                    var minDist = Infinity;
+                    for (var i = 0; i < slides.length; i++) {
+                        var slideCenter = slides[i].offsetLeft + slides[i].offsetWidth / 2;
+                        var dist = Math.abs(slideCenter - scrollLeft - containerWidth / 2);
+                        if (dist < minDist) { minDist = dist; closestIndex = i; }
+                    }
+                    var targetSlide = slides[closestIndex];
+                    var targetScroll = targetSlide.offsetLeft - (containerWidth - targetSlide.offsetWidth) / 2;
+                    carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
+                    // Сбрасываем dragMoved после небольшой задержки, чтобы click не открыл лайтбокс
+                    setTimeout(function() { dragMoved = false; }, 50);
+                }
+            });
+
+            // Предотвращаем открытие лайтбокса после drag
+            carousel.addEventListener('click', function(e) {
+                if (dragMoved) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                }
+            }, true);
+
+            // --- Эффект «nudge» при скролле до карусели ---
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting && !nudged) {
+                        nudged = true;
+                        observer.disconnect();
+                        setTimeout(function() {
+                            carousel.scrollTo({ left: 120, behavior: 'smooth' });
+                            setTimeout(function() {
+                                carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                            }, 600);
+                        }, 500);
+                    }
+                });
+            }, { threshold: 0.15 });
+            observer.observe(carousel);
+
+            // --- Клавиши влево/вправо (только когда лайтбокс закрыт) ---
+            document.addEventListener('keydown', function(e) {
+                if (lbOpen) return;
+                if (e.key === 'ArrowLeft') carouselNav(-1);
+                if (e.key === 'ArrowRight') carouselNav(1);
+            });
         }
     </script>
 </body>
